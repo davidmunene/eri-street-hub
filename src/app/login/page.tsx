@@ -14,7 +14,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const safeCallback = callbackUrl?.startsWith('/') && !callbackUrl.startsWith('//') ? callbackUrl : '/';
 
   return (
-    <main className="grid min-h-screen lg:grid-cols-2">
+    <main className="grid grid-cols-1 min-h-screen lg:grid-cols-2">
       <div className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-forest-800 via-forest-900 to-forest-950 p-12 text-white lg:flex">
         <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-lime/15" />
         <div className="absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-[#2e9348]/30" />

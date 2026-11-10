@@ -51,20 +51,20 @@ export default async function FinancePage({ searchParams }: { searchParams: Prom
           </>
         } />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label={`Income ${year}`} value={formatKES(income)} icon={<ArrowDownCircle className="h-5 w-5" />} tone="leaf" />
         <StatCard label={`Expenses ${year}`} value={formatKES(expense)} icon={<ArrowUpCircle className="h-5 w-5" />} tone="rose" />
         <StatCard label="Current balance" value={formatKES(balance)} hint="All years combined" icon={<Scale className="h-5 w-5" />} tone={balance < 0 ? 'rose' : 'brand'} />
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card title="Where the money went" description={`Expenses by category, ${year}`}>
           <BarList data={byCategory.map((c) => ({ label: c.category, value: c._sum.amount ?? 0 }))} unit="kes" emptyText="No expenses recorded" />
         </Card>
 
         <Card title="Ledger" className="lg:col-span-2" padded={false}
           actions={
-            <form className="flex gap-2">
+            <form className="flex flex-wrap gap-2">
               <select name="year" defaultValue={year} aria-label="Year" className={`${inputClass} w-24 py-1.5`}>{years.map((y) => <option key={y}>{y}</option>)}</select>
               <select name="type" defaultValue={type ?? ''} aria-label="Type" className={`${inputClass} w-28 py-1.5`}><option value="">All</option><option value="INCOME">Income</option><option value="EXPENSE">Expenses</option></select>
               <button className={buttonClass('secondary', 'sm')}>Apply</button>

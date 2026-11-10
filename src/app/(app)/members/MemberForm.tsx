@@ -23,7 +23,7 @@ export default function MemberForm({ sites, member }: { sites: { id: string; nam
           {(s) => (
             <>
               {member ? <input type="hidden" name="id" value={member.id} /> : null}
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Full name" name="name" error={s.fieldErrors?.name} required><Input name="name" defaultValue={member?.name} /></Field>
                 <Field label="Email" name="email" error={s.fieldErrors?.email} required><Input name="email" type="email" defaultValue={member?.email} /></Field>
                 <Field label="Phone" name="phone"><Input name="phone" type="tel" defaultValue={member?.phone ?? ''} /></Field>

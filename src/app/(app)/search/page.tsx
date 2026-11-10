@@ -34,7 +34,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     <>
       <PageHeader title={`Results for “${q}”`} />
       {groups.length === 0 ? <EmptyState title="Nothing found" description="Try a different spelling or a shorter word." /> : (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {groups.map((g) => (
             <Card key={g.title} title={g.title}>
               <ul className="divide-y divide-slate-100">

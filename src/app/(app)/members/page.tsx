@@ -38,7 +38,7 @@ export default async function MembersPage({ searchParams }: { searchParams: Prom
         <button className="rounded-lg bg-surface px-4 py-2 text-sm font-medium ring-1 ring-slate-300 hover:bg-slate-50">Filter</button>
       </form>
       {members.length === 0 ? <EmptyState title="No members match" icon={<Users className="h-8 w-8" />} /> : (
-        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {members.map((m) => (
             <li key={m.id}>
               <Link href={`/members/${m.id}`} className="flex h-full gap-4 rounded-xl border border-slate-200 bg-surface p-5 shadow-sm transition hover:border-brand-200 hover:shadow">

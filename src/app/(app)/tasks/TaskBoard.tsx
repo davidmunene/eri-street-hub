@@ -43,7 +43,7 @@ export default function TaskBoard({ tasks, members }: { tasks: BoardTask[]; memb
         <button onClick={() => setEditing('new')} className={buttonClass('primary')}><Plus className="h-4 w-4" /> New task</button>
       </div>
       {error ? <p role="alert" className="mb-3 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p> : null}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {COLUMNS.map((col) => {
           const items = optimistic.filter((t) => t.status === col.id);
           return (
@@ -115,7 +115,7 @@ export default function TaskBoard({ tasks, members }: { tasks: BoardTask[]; memb
                     {t ? <input type="hidden" name="id" value={t.id} /> : null}
                     <Field label="Title" name="title" error={s.fieldErrors?.title} required><Input name="title" defaultValue={t?.title} autoFocus /></Field>
                     <Field label="Details" name="description"><Textarea name="description" rows={3} defaultValue={t?.description ?? ''} /></Field>
-                    <div className="grid gap-4 sm:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                       <Field label="Assign to" name="assigneeId" className="sm:col-span-3"><Select name="assigneeId" placeholder="Unassigned" options={members.map((m) => ({ value: m.id, label: m.name }))} defaultValue={t?.assignee?.id ?? ''} /></Field>
                       <Field label="Priority" name="priority"><Select name="priority" defaultValue={t?.priority ?? 'MEDIUM'} options={[{ value: 'LOW', label: 'Low' }, { value: 'MEDIUM', label: 'Medium' }, { value: 'HIGH', label: 'High' }]} /></Field>
                       <Field label="Due date" name="dueDate" className="sm:col-span-2"><Input name="dueDate" type="date" defaultValue={t?.dueInput ?? ''} /></Field>

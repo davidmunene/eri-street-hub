@@ -37,7 +37,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
       {events.length === 0 ? (
         <EmptyState title={past ? 'No past events' : 'Nothing scheduled'} description={past ? undefined : 'Upcoming meetings and activities will show here.'} icon={<CalendarDays className="h-8 w-8" />} />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {events.map((e) => {
             const mine = e.rsvps[0]?.status;
             return (

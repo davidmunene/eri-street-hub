@@ -19,7 +19,7 @@ export default async function SettingsPage() {
   return (
     <>
       <PageHeader title="My profile & settings" description="Update how you appear to other members and keep your account secure." />
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <Card title="Profile"><ProfileForm user={user} /></Card>
           <Card title="Change password"><PasswordForm /></Card>
@@ -30,9 +30,9 @@ export default async function SettingsPage() {
         <Card title="Your account">
           <div className="flex items-center gap-4">
             <Avatar name={user.name} src={user.image} size="lg" />
-            <div>
-              <p className="font-semibold">{user.name}</p>
-              <p className="text-sm text-slate-500">{user.email}</p>
+            <div className="min-w-0">
+              <p className="break-words font-semibold">{user.name}</p>
+              <p className="break-all text-sm text-slate-500">{user.email}</p>
             </div>
           </div>
           {user.image ? (

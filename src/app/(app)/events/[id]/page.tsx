@@ -36,7 +36,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   return (
     <div>
       <Link href="/events" className="mb-4 inline-flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900"><ArrowLeft className="h-4 w-4" /> Events</Link>
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <Card>
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -53,7 +53,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                 </div>
               ) : null}
             </div>
-            <dl className="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
+            <dl className="mt-4 grid grid-cols-1 gap-3 text-sm text-slate-600 sm:grid-cols-2">
               <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-slate-400" />{formatDate(event.startsAt, true)}{event.endsAt ? ` – ${event.endsAt.toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Nairobi' })}` : ''}</div>
               {event.venue || event.site ? <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-slate-400" />{[event.venue, event.site?.name].filter(Boolean).join(' · ')}</div> : null}
               <div className="flex items-center gap-2"><User className="h-4 w-4 text-slate-400" />Organised by {event.organizer.name}</div>

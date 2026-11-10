@@ -27,7 +27,7 @@ export default async function MemberPage({ params }: { params: Promise<{ id: str
   return (
     <div>
       <Link href="/members" className="mb-4 inline-flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900"><ArrowLeft className="h-4 w-4" /> Members</Link>
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card className="lg:row-span-2">
           <div className="flex flex-col items-center text-center">
             <Avatar name={m.name} src={m.image} size="lg" />
@@ -53,7 +53,7 @@ export default async function MemberPage({ params }: { params: Promise<{ id: str
           ) : null}
         </Card>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-2">
           <StatCard label="Events attended" value={attended} icon={<CalendarCheck2 className="h-5 w-5" />} />
           {contributions ? <StatCard label="Contributions recorded" value={formatKES(contributions._sum.amount ?? 0)} hint={`${contributions._count} payments`} tone="leaf" /> : <StatCard label="Open tasks" value={openTasks.length} icon={<KanbanSquare className="h-5 w-5" />} tone="amber" />}
         </div>

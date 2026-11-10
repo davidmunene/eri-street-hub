@@ -18,7 +18,7 @@ export default function EventForm({ sites, event }: { sites: { id: string; name:
             <>
               {event ? <input type="hidden" name="id" value={event.id} /> : null}
               <Field label="Title" name="title" error={s.fieldErrors?.title} required><Input name="title" defaultValue={event?.title} placeholder="e.g. Monthly members' meeting" /></Field>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Type" name="type"><Select name="type" options={TYPES} defaultValue={event?.type ?? 'MEETING'} /></Field>
                 <Field label="Site" name="siteId"><Select name="siteId" placeholder="—" options={sites.map((x) => ({ value: x.id, label: x.name }))} defaultValue={event?.siteId ?? ''} /></Field>
                 <Field label="Starts" name="startsAt" error={s.fieldErrors?.startsAt} required><Input name="startsAt" type="datetime-local" defaultValue={event?.startsAt} /></Field>

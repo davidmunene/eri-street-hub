@@ -25,7 +25,7 @@ export default function TransactionForm({ members, today }: { members: { id: str
                   </button>
                 ))}
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Amount (KES)" name="amount" error={s.fieldErrors?.amount} required><Input name="amount" type="number" inputMode="numeric" min={1} step={1} /></Field>
                 <Field label="Date" name="date" error={s.fieldErrors?.date} required><Input name="date" type="date" defaultValue={today} /></Field>
                 <Field label="Category" name="category" error={s.fieldErrors?.category}>

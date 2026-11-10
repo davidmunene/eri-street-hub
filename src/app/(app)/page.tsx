@@ -87,7 +87,7 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="People we support" value={beneficiaryCount.toLocaleString()} hint={`${newThisMonth} new intake${newThisMonth === 1 ? '' : 's'} this month`} icon={<HeartHandshake className="h-5 w-5" />} />
         <StatCard label="Documentation gap" value={`${pct(missingDocs)}%`} hint={`${missingDocs} still need a birth certificate or ID`} icon={<FileWarning className="h-5 w-5" />} tone="amber" />
         <StatCard label="Healthcare access" value={`${pct(withHealthcare)}%`} hint="Enrolled in SHA or other cover" icon={<HeartPulse className="h-5 w-5" />} tone="leaf" />
@@ -98,7 +98,7 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card title="Rehabilitation pipeline" description="Active people at each stage of the journey" className="lg:col-span-2"
           actions={canCases ? <Link href="/pipeline" className="text-sm font-medium text-brand-600 hover:underline">Open board</Link> : null}>
           <BarList data={STAGES.map((s) => ({ label: s.label, value: byStage.find((b) => b.stage === s.id)?._count ?? 0, hint: s.description }))} />
@@ -108,7 +108,7 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card title="Noticeboard" className="lg:col-span-2" actions={<Link href="/announcements" className="text-sm font-medium text-brand-600 hover:underline">View all</Link>}>
           {notices.length ? (
             <ul className="divide-y divide-slate-100">
@@ -152,7 +152,7 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         {finance ? (
           <Card title="Money in & out" description="Last six months" className="lg:col-span-2" actions={<Link href="/finance" className="text-sm font-medium text-brand-600 hover:underline">Ledger</Link>}>
             <MonthlyBars data={finance.months} unit="kes" />

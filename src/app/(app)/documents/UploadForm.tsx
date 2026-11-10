@@ -19,7 +19,7 @@ export default function UploadForm({ canLeadership, canTeam }: { canLeadership: 
           {(s) => (
             <>
               <Field label="Title" name="title" error={s.fieldErrors?.title} required><Input name="title" placeholder="e.g. Child safeguarding policy 2026" /></Field>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Category" name="category"><Select name="category" options={Object.entries(DOC_CATEGORIES).map(([value, label]) => ({ value, label }))} defaultValue="OTHER" /></Field>
                 <Field label="Visible to" name="audience"><Select name="audience" options={audiences} /></Field>
               </div>

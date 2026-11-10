@@ -44,10 +44,10 @@ export function PageHeader({ title, description, actions, eyebrow }: { title: st
 
 export function Card({ className, children, title, description, actions, padded = true }: { className?: string; children: ReactNode; title?: ReactNode; description?: string; actions?: ReactNode; padded?: boolean }) {
   return (
-    <section className={cn('rounded-xl border border-slate-200 bg-surface shadow-sm', className)}>
+    <section className={cn('min-w-0 rounded-xl border border-slate-200 bg-surface shadow-sm', className)}>
       {title ? (
-        <header className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
-          <div>
+        <header className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
+          <div className="min-w-0">
             <h2 className="text-base font-semibold text-slate-900">{title}</h2>
             {description ? <p className="mt-0.5 text-sm text-slate-500">{description}</p> : null}
           </div>
@@ -62,12 +62,12 @@ export function Card({ className, children, title, description, actions, padded 
 export function StatCard({ label, value, hint, icon, tone = 'brand' }: { label: string; value: ReactNode; hint?: ReactNode; icon?: ReactNode; tone?: 'brand' | 'leaf' | 'amber' | 'rose' }) {
   const tones = { brand: 'bg-brand-50 text-brand-700', leaf: 'bg-leaf-50 text-leaf-700', amber: 'bg-amber-50 text-amber-700', rose: 'bg-rose-50 text-rose-700' };
   return (
-    <div className="rounded-xl border border-slate-200 bg-surface p-5 shadow-sm">
+    <div className="min-w-0 rounded-xl border border-slate-200 bg-surface p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <p className="text-sm font-medium text-slate-500">{label}</p>
         {icon ? <span className={cn('rounded-lg p-2', tones[tone])}>{icon}</span> : null}
       </div>
-      <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{value}</p>
+      <p className="mt-2 break-words text-2xl font-bold tracking-tight text-slate-900 tabular-nums sm:text-3xl">{value}</p>
       {hint ? <p className="mt-1 text-xs text-slate-500">{hint}</p> : null}
     </div>
   );

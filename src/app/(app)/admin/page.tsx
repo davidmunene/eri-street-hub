@@ -41,14 +41,14 @@ async function Overview() {
   ]);
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Beneficiary records" value={beneficiaries} />
         <StatCard label="Documents" value={docs} />
         <StatCard label="Events" value={events} />
         <StatCard label="Transactions" value={tx} />
       </div>
       <Card title="Accounts" actions={<Link href="/members?inactive=1" className="text-sm font-medium text-brand-600 hover:underline">Manage members</Link>}>
-        <div className="grid gap-4 sm:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
           {(Object.keys(ROLE_LABELS) as Role[]).map((r) => (
             <div key={r}><p className="text-2xl font-bold">{users.find((u) => u.role === r)?._count ?? 0}</p><p className="text-sm text-slate-500">{ROLE_LABELS[r]}s</p></div>
           ))}
@@ -112,7 +112,7 @@ function Roles() {
   const roles = Object.keys(ROLE_LABELS) as Role[];
   return (
     <Card title="What each role can do" description="Permissions are enforced on the server for every page and action." padded={false}>
-      <div className="grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2 lg:grid-cols-5">
         {roles.map((r) => <div key={r}><p className="font-semibold">{ROLE_LABELS[r]}</p><p className="text-xs text-slate-500">{ROLE_DESCRIPTIONS[r]}</p></div>)}
       </div>
       <Table head={['Permission', ...roles.map((r) => ROLE_LABELS[r])]}>

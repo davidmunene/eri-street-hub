@@ -19,13 +19,13 @@ export default function ReportForm({ sites, people, today, preselect, onDone }: 
     <ActionForm action={createFieldReport} onSuccess={() => { setPicked(new Set()); onDone?.(); }} resetOnSuccess className="space-y-4">
       {(s) => (
         <>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <Field label="Type" name="type"><Select name="type" options={TYPES.map((t) => ({ value: t, label: t.charAt(0) + t.slice(1).toLowerCase() }))} /></Field>
             <Field label="Date" name="date" error={s.fieldErrors?.date} required><Input name="date" type="date" defaultValue={today} /></Field>
             <Field label="Site" name="siteId"><Select name="siteId" placeholder="—" options={sites.map((x) => ({ value: x.id, label: x.name }))} /></Field>
           </div>
           <Field label="What happened?" name="summary" error={s.fieldErrors?.summary} required><Textarea name="summary" rows={4} placeholder="e.g. Hot lunch for 45 people at Mlango Kubwa; 3 referred to Mbagathi Hospital." /></Field>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Outcome" name="outcome"><Select name="outcome" options={OUTCOMES} /></Field>
             <Field label="People reached" name="peopleReached" hint="Leave blank to count the people ticked below"><Input name="peopleReached" type="number" min={0} /></Field>
           </div>

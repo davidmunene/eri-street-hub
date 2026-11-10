@@ -103,7 +103,7 @@ export default function BeneficiaryForm({ action, sites, staff, defaults = {} }:
                 <Field label="Health conditions & needs" name="healthConditions"><Textarea name="healthConditions" rows={3} defaultValue={defaults.healthConditions} /></Field>
                 <fieldset>
                   <legend className="text-sm font-medium text-slate-700">Vulnerabilities</legend>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                  <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
                     {VULNERABILITY_FLAGS.map((f) => (
                       <label key={f} className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm has-[:checked]:border-brand-400 has-[:checked]:bg-brand-50">
                         <input type="checkbox" name="vulnerabilityFlags" value={f} defaultChecked={defaults.vulnerabilityFlags?.includes(f)} className="rounded border-slate-300 text-primary" /> {f}

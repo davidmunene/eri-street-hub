@@ -36,7 +36,7 @@ export default async function FieldReportsPage({ searchParams }: { searchParams:
         actions={manage ? <NewReport sites={sites} today={toDateInput(new Date())} preselect={sp.beneficiary} autoOpen={!!sp.new}
           people={people.map((p) => ({ id: p.id, label: `${p.code} · ${p.legalName}${p.alias ? ` (${p.alias})` : ''}` }))} /> : null} />
 
-      <div className="mb-6 grid gap-4 sm:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label="Reports this month" value={monthAgg._count} />
         <StatCard label="People reached this month" value={(monthAgg._sum.peopleReached ?? 0).toLocaleString()} tone="leaf" />
         <StatCard label="Need follow-up (30 days)" value={followUps} tone={followUps ? 'amber' : 'brand'} />

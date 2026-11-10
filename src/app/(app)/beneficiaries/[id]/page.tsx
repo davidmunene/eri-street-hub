@@ -84,7 +84,7 @@ export default async function BeneficiaryPage({ params, searchParams }: { params
         </div>
       </Card>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <Card title="Case notes" description="A running record of visits, progress and concerns.">
             {edit ? <div className="mb-5"><NoteForm beneficiaryId={b.id} /></div> : null}

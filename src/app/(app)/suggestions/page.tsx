@@ -24,7 +24,7 @@ export default async function SuggestionsPage() {
   return (
     <>
       <PageHeader title="Suggestion box" description="Every voice matters. Share ideas and concerns with the leadership, anonymously if you prefer." />
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card title="Share a suggestion"><SuggestionForm /></Card>
         <div className="space-y-3 lg:col-span-2">
           <h2 className="text-sm font-semibold text-slate-700">{reviewer ? 'All suggestions' : 'Your suggestions & responses'}</h2>

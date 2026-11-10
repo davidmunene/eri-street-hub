@@ -31,7 +31,7 @@ export default async function PartnersPage({ searchParams }: { searchParams: Pro
         <button className={buttonClass('secondary')}>Search</button>
       </form>
       {partners.length === 0 ? <EmptyState title="No partners yet" icon={<Handshake className="h-8 w-8" />} /> : (
-        <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {partners.map((p) => (
             <li key={p.id} className="flex flex-col rounded-xl border border-slate-200 bg-surface p-5 shadow-sm">
               <div className="flex items-start justify-between gap-2">

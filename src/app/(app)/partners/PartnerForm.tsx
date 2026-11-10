@@ -16,7 +16,7 @@ export default function PartnerForm({ sites, partner }: { sites: { id: string; n
           {(s) => (
             <>
               {partner ? <input type="hidden" name="id" value={partner.id} /> : null}
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Organisation" name="name" error={s.fieldErrors?.name} required><Input name="name" defaultValue={partner?.name} /></Field>
                 <Field label="Type" name="type"><Select name="type" defaultValue={partner?.type ?? PARTNER_TYPES[0]} options={PARTNER_TYPES.map((t) => ({ value: t, label: t }))} /></Field>
                 <Field label="Contact person" name="contactPerson"><Input name="contactPerson" defaultValue={partner?.contactPerson ?? ''} /></Field>
