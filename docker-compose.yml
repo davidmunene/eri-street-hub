@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: eri
+      POSTGRES_PASSWORD: eri_local_dev
+      POSTGRES_DB: eri_street_hub
+    ports:
+      - '5433:5432'
+    volumes:
+      - eri_pgdata:/var/lib/postgresql/data
+volumes:
+  eri_pgdata:

@@ -1,0 +1,56 @@
+{
+  "name": "eri-street-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Organisation management hub for Eri Street Initiative \u2014 members, events, tasks, documents, finance and beneficiary case management in one place.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:up": "docker compose up -d db",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset --force",
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "@vercel/blob": "^2.9.0",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.71.0",
+    "next": "^15.5.29",
+    "next-auth": "^4.24.15",
+    "react": "^19.1.10",
+    "react-dom": "^19.1.10",
+    "server-only": "^0.0.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.11",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.6.2",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.29",
+    "postcss": "^8.5.32",
+    "prisma": "^6.19.3",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}

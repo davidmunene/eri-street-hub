@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: eri
+          POSTGRES_PASSWORD: eri_ci
+          POSTGRES_DB: eri_street_hub
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U eri" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://eri:eri_ci@localhost:5432/eri_street_hub?schema=public
+      NEXTAUTH_SECRET: ci-only-not-a-real-secret
+      NEXTAUTH_URL: http://localhost:3000
+      SEED_ADMIN_EMAIL: admin@ci.local
+      SEED_ADMIN_PASSWORD: ci-password-12345
+      SEED_DEMO: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Apply migrations & seed (verifies schema and seed script)
+        run: npx prisma migrate deploy && npm run db:seed
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build

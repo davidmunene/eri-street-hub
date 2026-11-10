@@ -1,0 +1,445 @@
+// Eri Street Hub — data model
+// Two halves: (1) running the organisation (members, noticeboard, events,
+// tasks, documents, finance) and (2) the beneficiary case-management pipeline.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────── People & access ───────────────────────────────
+
+/// ADMIN    – full control, manages members and system settings
+/// OFFICIAL – leadership (chair, treasurer, secretary…); finance + governance
+/// STAFF    – field officers / caseworkers; beneficiary case management
+/// MEMBER   – volunteers & general members; noticeboard, events, tasks, docs
+/// VIEWER   – donors / observers; read-only overview
+enum Role {
+  ADMIN
+  OFFICIAL
+  STAFF
+  MEMBER
+  VIEWER
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model User {
+  id                 String       @id @default(cuid())
+  name               String
+  email              String       @unique
+  passwordHash       String
+  role               Role         @default(MEMBER)
+  status             MemberStatus @default(ACTIVE)
+  position           String? /// e.g. "Treasurer", "Field Officer"
+  phone              String?
+  bio                String?
+  skills             String[]
+  image              String?
+  mustChangePassword Boolean      @default(true)
+  siteId             String?
+  site               Site?        @relation(fields: [siteId], references: [id], onDelete: SetNull)
+  joinedAt           DateTime     @default(now())
+  lastLoginAt        DateTime?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  announcements      Announcement[]
+  comments           Comment[]
+  eventsOrganized    Event[]          @relation("EventOrganizer")
+  rsvps              EventRsvp[]
+  tasksAssigned      Task[]           @relation("TaskAssignee")
+  tasksCreated       Task[]           @relation("TaskCreator")
+  documents          Document[]
+  transactionsLogged Transaction[]    @relation("TransactionRecorder")
+  contributions      Transaction[]    @relation("TransactionMember")
+  casesAssigned      Beneficiary[]    @relation("Caseworker")
+  beneficiariesAdded Beneficiary[]    @relation("RegisteredBy")
+  caseNotes          CaseNote[]
+  stageChanges       StageChange[]
+  fieldReports       FieldReport[]
+  suggestions        Suggestion[]
+  auditLogs          AuditLog[]
+}
+
+/// Operational locations, e.g. Thika/Juja, Mlango Kubwa. Managed by admins.
+model Site {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  description   String?
+  createdAt     DateTime      @default(now())
+  users         User[]
+  beneficiaries Beneficiary[]
+  events        Event[]
+  fieldReports  FieldReport[]
+  partners      Partner[]
+}
+
+// ─────────────────────────────── Noticeboard ───────────────────────────────
+
+enum Audience {
+  EVERYONE
+  TEAM /// staff, officials & admins (not viewers/members)
+  LEADERSHIP /// officials & admins
+}
+
+model Announcement {
+  id        String    @id @default(cuid())
+  title     String
+  body      String
+  pinned    Boolean   @default(false)
+  audience  Audience  @default(EVERYONE)
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([pinned, createdAt])
+}
+
+model Comment {
+  id             String       @id @default(cuid())
+  body           String
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  authorId       String
+  author         User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+}
+
+// ─────────────────────────────── Events & meetings ───────────────────────────────
+
+enum EventType {
+  MEETING
+  OUTREACH
+  TRAINING
+  FUNDRAISER
+  SOCIAL
+  OTHER
+}
+
+enum RsvpStatus {
+  GOING
+  MAYBE
+  NOT_GOING
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  type        EventType   @default(MEETING)
+  startsAt    DateTime
+  endsAt      DateTime?
+  venue       String?
+  siteId      String?
+  site        Site?       @relation(fields: [siteId], references: [id], onDelete: SetNull)
+  minutes     String? /// meeting minutes / post-event report
+  organizerId String
+  organizer   User        @relation("EventOrganizer", fields: [organizerId], references: [id], onDelete: Cascade)
+  rsvps       EventRsvp[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([startsAt])
+}
+
+model EventRsvp {
+  eventId  String
+  event    Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status   RsvpStatus @default(GOING)
+  attended Boolean    @default(false)
+
+  @@id([eventId, userId])
+}
+
+// ─────────────────────────────── Tasks ───────────────────────────────
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus @default(TODO)
+  priority    Priority   @default(MEDIUM)
+  dueDate     DateTime?
+  assigneeId  String?
+  assignee    User?      @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  creatorId   String
+  creator     User       @relation("TaskCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  completedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([status])
+}
+
+// ─────────────────────────────── Document library ───────────────────────────────
+
+enum DocCategory {
+  POLICY
+  SOP
+  MINUTES
+  REPORT
+  FORM
+  TRAINING
+  OTHER
+}
+
+model Document {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  category    DocCategory @default(OTHER)
+  audience    Audience    @default(EVERYONE)
+  fileUrl     String? /// uploaded file
+  fileName    String?
+  fileSize    Int?
+  mimeType    String?
+  externalUrl String? /// or a link (Google Drive etc.)
+  uploaderId  String
+  uploader    User        @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+}
+
+// ─────────────────────────────── Finance ───────────────────────────────
+
+enum TxType {
+  INCOME
+  EXPENSE
+}
+
+/// Amounts are whole Kenyan Shillings (KES).
+model Transaction {
+  id           String   @id @default(cuid())
+  type         TxType
+  category     String /// Dues, Donation, Grant, Food, Transport, Medical…
+  amount       Int
+  date         DateTime
+  description  String?
+  reference    String? /// M-Pesa code, receipt number…
+  memberId     String? /// set when this is a member contribution / dues
+  member       User?    @relation("TransactionMember", fields: [memberId], references: [id], onDelete: SetNull)
+  recordedById String
+  recordedBy   User     @relation("TransactionRecorder", fields: [recordedById], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+
+  @@index([date])
+}
+
+// ─────────────────────────────── Beneficiary case management ───────────────────────────────
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+/// The Eri Street rehabilitation journey.
+enum Stage {
+  HELPING_HAND
+  IDENTIFICATION
+  ACCESS_REHABILITATION
+  REINTEGRATION
+  RESOCIALIZATION
+  GRADUATED
+}
+
+enum CaseStatus {
+  ACTIVE
+  ON_HOLD
+  EXITED
+}
+
+enum IdDocType {
+  BIRTH_CERTIFICATE
+  NATIONAL_ID
+  SHA_CARD
+  SOCIAL_PROTECTION
+  OTHER
+}
+
+enum VerificationStatus {
+  MISSING
+  IN_PROCESS
+  OBTAINED
+}
+
+model Beneficiary {
+  id                 String        @id @default(cuid())
+  code               String        @unique /// human-friendly case number, e.g. ESI-0042
+  legalName          String
+  alias              String?
+  gender             Gender
+  dateOfBirth        DateTime?
+  estimatedAge       Int?
+  phone              String?
+  photoUrl           String?
+  siteId             String?
+  site               Site?         @relation(fields: [siteId], references: [id], onDelete: SetNull)
+  stage              Stage         @default(HELPING_HAND)
+  status             CaseStatus    @default(ACTIVE)
+  hasDisability      Boolean       @default(false)
+  disabilityDetails  String?
+  hasHealthcare      Boolean       @default(false)
+  healthConditions   String?
+  householdSize      Int?
+  caregiverName      String?
+  caregiverRelation  String?
+  caregiverPhone     String?
+  vulnerabilityFlags String[]
+  consentGiven       Boolean       @default(false) /// consent to store personal data
+  intakeDate         DateTime      @default(now())
+  stageChangedAt     DateTime      @default(now())
+  caseworkerId       String?
+  caseworker         User?         @relation("Caseworker", fields: [caseworkerId], references: [id], onDelete: SetNull)
+  registeredById     String?
+  registeredBy       User?         @relation("RegisteredBy", fields: [registeredById], references: [id], onDelete: SetNull)
+  idDocuments        IdDocument[]
+  notes              CaseNote[]
+  stageChanges       StageChange[]
+  fieldReports       FieldReport[]
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@index([stage])
+  @@index([siteId])
+}
+
+model IdDocument {
+  id            String             @id @default(cuid())
+  beneficiaryId String
+  beneficiary   Beneficiary        @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  type          IdDocType
+  status        VerificationStatus @default(MISSING)
+  number        String?
+  notes         String?
+  updatedAt     DateTime           @updatedAt
+
+  @@unique([beneficiaryId, type])
+}
+
+model CaseNote {
+  id            String      @id @default(cuid())
+  beneficiaryId String
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  authorId      String
+  author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  body          String
+  createdAt     DateTime    @default(now())
+}
+
+model StageChange {
+  id            String      @id @default(cuid())
+  beneficiaryId String
+  beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+  fromStage     Stage
+  toStage       Stage
+  changedById   String?
+  changedBy     User?       @relation(fields: [changedById], references: [id], onDelete: SetNull)
+  createdAt     DateTime    @default(now())
+}
+
+enum InterventionType {
+  FOOD
+  HEALTH
+  DOCUMENTATION
+  COUNSELLING
+  EDUCATION
+  SHELTER
+  LIVELIHOOD
+  REFERRAL
+  OTHER
+}
+
+enum Outcome {
+  SUCCESS
+  IN_PROGRESS
+  NEEDS_FOLLOW_UP
+  CRITICAL
+}
+
+/// A field report: one intervention, possibly reaching many beneficiaries.
+model FieldReport {
+  id            String           @id @default(cuid())
+  type          InterventionType
+  date          DateTime
+  siteId        String?
+  site          Site?            @relation(fields: [siteId], references: [id], onDelete: SetNull)
+  summary       String
+  outcome       Outcome          @default(SUCCESS)
+  peopleReached Int?
+  staffId       String
+  staff         User             @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  beneficiaries Beneficiary[]
+  createdAt     DateTime         @default(now())
+
+  @@index([date])
+}
+
+model Partner {
+  id            String   @id @default(cuid())
+  name          String
+  type          String /// Health facility, Government office, NGO, Shelter…
+  services      String?
+  contactPerson String?
+  phone         String?
+  email         String?
+  siteId        String?
+  site          Site?    @relation(fields: [siteId], references: [id], onDelete: SetNull)
+  notes         String?
+  createdAt     DateTime @default(now())
+}
+
+// ─────────────────────────────── Feedback & accountability ───────────────────────────────
+
+enum SuggestionStatus {
+  NEW
+  REVIEWED
+  ACTIONED
+}
+
+model Suggestion {
+  id        String           @id @default(cuid())
+  body      String
+  anonymous Boolean          @default(false)
+  authorId  String?
+  author    User?            @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  status    SuggestionStatus @default(NEW)
+  response  String?
+  createdAt DateTime         @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  actor     User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action    String /// e.g. "beneficiary.create"
+  entity    String?
+  entityId  String?
+  summary   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
