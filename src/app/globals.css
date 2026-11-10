@@ -2,9 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Theme tokens. Colours are CSS variables (RGB channels) so every Tailwind class
+ * adapts to dark mode automatically. Toggle by adding/removing `.dark` on <html>.
+ */
 @layer base {
+  :root {
+    color-scheme: light;
+    --slate-50: 244 247 245;
+    --slate-100: 235 240 237;
+    --slate-200: 221 228 224;
+    --slate-300: 197 207 202;
+    --slate-400: 143 156 150;
+    --slate-500: 100 113 107;
+    --slate-600: 74 86 80;
+    --slate-700: 54 64 60;
+    --slate-800: 34 42 38;
+    --slate-900: 19 26 23;
+    --slate-950: 10 15 13;
+    --brand-50: 238 248 240;
+    --brand-100: 214 239 219;
+    --brand-200: 173 224 184;
+    --brand-300: 124 201 142;
+    --brand-400: 79 174 102;
+    --brand-500: 46 147 72;
+    --brand-600: 38 121 61;
+    --brand-700: 31 98 51;
+    --brand-800: 26 79 43;
+    --brand-900: 21 63 35;
+    --leaf-50: 235 250 244;
+    --leaf-100: 208 242 228;
+    --leaf-200: 163 228 203;
+    --leaf-500: 18 160 122;
+    --leaf-600: 13 132 102;
+    --leaf-700: 11 106 82;
+    --amber-50: 255 251 235;
+    --amber-200: 253 230 138;
+    --amber-500: 245 158 11;
+    --amber-700: 180 83 9;
+    --amber-800: 146 64 14;
+    --rose-50: 255 241 242;
+    --rose-200: 254 205 211;
+    --rose-300: 253 164 175;
+    --rose-400: 251 113 133;
+    --rose-600: 225 29 72;
+    --rose-700: 190 18 60;
+    --rose-800: 159 18 57;
+    --sky-50: 240 249 255;
+    --sky-700: 3 105 161;
+    --violet-50: 245 243 255;
+    --violet-700: 109 40 217;
+    --surface: 255 255 255;
+    --primary: 31 122 58;
+    --primary-hover: 24 101 48;
+    --danger: 217 45 75;
+    --chart-1: 46 147 72;
+    --chart-2: 43 82 198;
+  }
+  .dark {
+    color-scheme: dark;
+    --slate-50: 12 17 15;
+    --slate-100: 28 37 33;
+    --slate-200: 40 51 46;
+    --slate-300: 58 71 65;
+    --slate-400: 100 114 108;
+    --slate-500: 141 154 149;
+    --slate-600: 170 181 176;
+    --slate-700: 200 209 205;
+    --slate-800: 223 229 226;
+    --slate-900: 238 242 240;
+    --slate-950: 248 250 249;
+    --brand-50: 20 42 28;
+    --brand-100: 25 53 34;
+    --brand-200: 33 74 45;
+    --brand-300: 47 106 64;
+    --brand-400: 58 168 87;
+    --brand-500: 76 186 103;
+    --brand-600: 111 203 134;
+    --brand-700: 147 217 165;
+    --brand-800: 183 230 195;
+    --brand-900: 219 243 225;
+    --leaf-50: 15 40 32;
+    --leaf-100: 19 51 40;
+    --leaf-200: 28 74 58;
+    --leaf-500: 44 193 150;
+    --leaf-600: 82 209 170;
+    --leaf-700: 134 223 195;
+    --amber-50: 43 34 16;
+    --amber-200: 90 68 21;
+    --amber-500: 245 158 11;
+    --amber-700: 251 191 36;
+    --amber-800: 252 211 77;
+    --rose-50: 45 21 25;
+    --rose-200: 92 31 42;
+    --rose-300: 127 39 56;
+    --rose-400: 224 90 116;
+    --rose-600: 251 113 133;
+    --rose-700: 253 164 175;
+    --rose-800: 254 205 211;
+    --sky-50: 15 34 48;
+    --sky-700: 125 211 252;
+    --violet-50: 32 26 53;
+    --violet-700: 196 181 253;
+    --surface: 20 27 24;
+    --primary: 35 138 67;
+    --primary-hover: 42 154 77;
+    --danger: 217 45 75;
+    --chart-1: 58 168 87;
+    --chart-2: 99 131 234;
+  }
+
   html { -webkit-tap-highlight-color: transparent; }
   body { @apply bg-slate-50 text-slate-900 antialiased; }
+  /* Form controls from @tailwindcss/forms default to white; make them theme-aware. */
+  [type='checkbox'], [type='radio'] { color: rgb(var(--primary)); }
+  .dark [type='checkbox']:not(:checked), .dark [type='radio']:not(:checked) { background-color: rgb(var(--surface)); }
+  .dark :focus { --tw-ring-offset-color: rgb(var(--surface)); }
+  .dark select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%238d9a95' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); }
+
+  ::selection { @apply bg-brand-200 text-slate-900; }
 }
 
 /* Long-form user text (announcements, minutes, notes) keeps its line breaks. */

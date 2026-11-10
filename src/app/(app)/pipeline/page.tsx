@@ -28,7 +28,7 @@ export default async function PipelinePage({ searchParams }: { searchParams: Pro
         actions={
           <form className="flex gap-2">
             <select name="site" defaultValue={site ?? ''} aria-label="Site" className={`${inputClass} w-44`}><option value="">All sites</option>{sites.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
-            <label className="flex items-center gap-1.5 whitespace-nowrap text-sm text-slate-600"><input type="checkbox" name="mine" value="1" defaultChecked={!!mine} className="rounded border-slate-300" /> My cases</label>
+            <label className="flex items-center gap-1.5 whitespace-nowrap text-sm text-slate-600"><input type="checkbox" name="mine" value="1" defaultChecked={!!mine} className="rounded border-slate-300 text-primary" /> My cases</label>
             <button className={buttonClass('secondary')}>Apply</button>
           </form>
         } />

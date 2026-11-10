@@ -30,8 +30,8 @@ export function StageStepper({ id, stage, canEdit }: { id: string; stage: string
               }}
               className={cn('flex h-full w-full flex-col items-start rounded-lg border px-2.5 py-2 text-left text-xs transition disabled:cursor-default',
                 i < idx && 'border-leaf-200 bg-leaf-50 text-leaf-700',
-                i === idx && 'border-brand-500 bg-brand-700 text-white',
-                i > idx && 'border-slate-200 bg-white text-slate-500',
+                i === idx && 'border-brand-500 bg-primary text-white',
+                i > idx && 'border-slate-200 bg-surface text-slate-500',
                 canEdit && i !== idx && 'hover:border-brand-300')}
             >
               <span className="flex items-center gap-1 font-semibold">{i < idx ? <Check className="h-3 w-3" /> : null}{i + 1}. {s.short}</span>

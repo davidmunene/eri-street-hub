@@ -37,7 +37,7 @@ export default function ReportForm({ sites, people, today, preselect, onDone }: 
               {shown.map((p) => (
                 <li key={p.id}>
                   <label className="flex cursor-pointer items-center gap-2 px-3 py-1.5 text-sm hover:bg-slate-50">
-                    <input type="checkbox" checked={picked.has(p.id)} onChange={(e) => setPicked((prev) => { const n = new Set(prev); if (e.target.checked) n.add(p.id); else n.delete(p.id); return n; })} className="rounded border-slate-300 text-brand-700" />
+                    <input type="checkbox" checked={picked.has(p.id)} onChange={(e) => setPicked((prev) => { const n = new Set(prev); if (e.target.checked) n.add(p.id); else n.delete(p.id); return n; })} className="rounded border-slate-300 text-primary" />
                     {p.label}
                   </label>
                 </li>

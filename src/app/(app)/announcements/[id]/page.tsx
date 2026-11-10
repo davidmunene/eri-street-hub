@@ -53,7 +53,7 @@ export default async function AnnouncementPage({ params }: { params: Promise<{ i
       <h2 className="mb-3 mt-8 text-sm font-semibold text-slate-700">Comments ({a.comments.length})</h2>
       <div className="space-y-3">
         {a.comments.map((c) => (
-          <div key={c.id} className="flex gap-3 rounded-xl border border-slate-200 bg-white p-4">
+          <div key={c.id} className="flex gap-3 rounded-xl border border-slate-200 bg-surface p-4">
             <Avatar name={c.author.name} src={c.author.image} size="sm" />
             <div className="min-w-0 flex-1">
               <p className="text-sm"><span className="font-semibold">{c.author.name}</span> <span className="text-xs text-slate-400">· {timeAgo(c.createdAt)}</span></p>

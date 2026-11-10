@@ -31,7 +31,7 @@ export default async function AnnouncementsPage() {
       ) : (
         <div className="space-y-4">
           {items.map((a) => (
-            <Link key={a.id} href={`/announcements/${a.id}`} className="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-brand-200 hover:shadow">
+            <Link key={a.id} href={`/announcements/${a.id}`} className="block rounded-xl border border-slate-200 bg-surface p-5 shadow-sm transition hover:border-brand-200 hover:shadow">
               <div className="flex items-start gap-3">
                 <Avatar name={a.author.name} src={a.author.image} />
                 <div className="min-w-0 flex-1">

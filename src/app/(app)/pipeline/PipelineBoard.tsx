@@ -44,14 +44,14 @@ export default function PipelineBoard({ cards, canEdit }: { cards: Card[]; canEd
                 <header className="mb-2 px-1">
                   <div className="flex items-center justify-between">
                     <h2 className="text-sm font-semibold text-slate-800">{stage.label}</h2>
-                    <span className="rounded-full bg-white px-2 text-xs font-semibold text-slate-600">{col.length}</span>
+                    <span className="rounded-full bg-surface px-2 text-xs font-semibold text-slate-600">{col.length}</span>
                   </div>
                   <p className="text-[11px] text-slate-500">{stage.description}</p>
                 </header>
                 <ul className="min-h-[200px] flex-1 space-y-2">
                   {col.map((c) => (
                     <li key={c.id} draggable={canEdit} onDragStart={(e) => e.dataTransfer.setData('text/plain', c.id)}
-                      className={cn('rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm', canEdit && 'cursor-grab active:cursor-grabbing')}>
+                      className={cn('rounded-lg border border-slate-200 bg-surface p-2.5 shadow-sm', canEdit && 'cursor-grab active:cursor-grabbing')}>
                       <Link href={`/beneficiaries/${c.id}`} className="flex items-start gap-2" draggable={false}>
                         <Avatar name={c.alias ?? c.name} src={c.photoUrl} size="sm" />
                         <div className="min-w-0">
@@ -79,7 +79,7 @@ export default function PipelineBoard({ cards, canEdit }: { cards: Card[]; canEd
         </div>
       </div>
       {toast ? (
-        <div role="status" className={cn('fixed bottom-6 right-6 z-50 rounded-lg px-4 py-3 text-sm text-white shadow-lg', toast.error ? 'bg-rose-600' : 'bg-slate-900')}>{toast.text}</div>
+        <div role="status" className={cn('fixed bottom-6 right-6 z-50 rounded-lg px-4 py-3 text-sm text-white shadow-lg', toast.error ? 'bg-danger' : 'bg-neutral-900 ring-1 ring-white/10')}>{toast.text}</div>
       ) : null}
     </>
   );

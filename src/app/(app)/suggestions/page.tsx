@@ -29,7 +29,7 @@ export default async function SuggestionsPage() {
         <div className="space-y-3 lg:col-span-2">
           <h2 className="text-sm font-semibold text-slate-700">{reviewer ? 'All suggestions' : 'Your suggestions & responses'}</h2>
           {items.length === 0 ? <EmptyState title="No suggestions yet" icon={<MessageSquareHeart className="h-8 w-8" />} /> : items.map((s) => (
-            <div key={s.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div key={s.id} className="rounded-xl border border-slate-200 bg-surface p-4 shadow-sm">
               <div className="flex items-center gap-2 text-xs text-slate-500">
                 <Badge tone={TONE[s.status]}>{s.status.charAt(0) + s.status.slice(1).toLowerCase()}</Badge>
                 {s.anonymous ? 'Anonymous' : s.author?.name ?? 'Former member'} · {timeAgo(s.createdAt)}

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { themeInitScript } from '@/lib/theme';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -11,11 +12,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export const viewport: Viewport = { themeColor: '#1d2f86' };
+export const viewport: Viewport = { themeColor: [{ media: '(prefers-color-scheme: light)', color: '#0f3820' }, { media: '(prefers-color-scheme: dark)', color: '#0a2716' }] };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    // suppressHydrationWarning: the init script adds the `dark` class before React hydrates.
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="font-sans">{children}</body>
     </html>
   );

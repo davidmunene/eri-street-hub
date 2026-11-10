@@ -6,6 +6,7 @@ import { Avatar, Badge, Card, PageHeader } from '@/components/ui';
 import { InlineAction } from '@/components/forms';
 import { formatDate } from '@/lib/format';
 import ProfileForm from './ProfileForm';
+import ThemeToggle from '@/components/ThemeToggle';
 import PasswordForm from './PasswordForm';
 import { removeAvatar } from './actions';
 
@@ -22,6 +23,9 @@ export default async function SettingsPage() {
         <div className="space-y-6 lg:col-span-2">
           <Card title="Profile"><ProfileForm user={user} /></Card>
           <Card title="Change password"><PasswordForm /></Card>
+          <Card title="Appearance" description="Choose light or dark mode. Your choice is remembered on this device.">
+            <ThemeToggle withLabel className="ring-1 ring-inset ring-slate-300" />
+          </Card>
         </div>
         <Card title="Your account">
           <div className="flex items-center gap-4">

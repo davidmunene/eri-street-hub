@@ -12,7 +12,7 @@ export function AttendanceForm({ eventId, people }: { eventId: string; people: {
         {people.map((p) => (
           <li key={p.id}>
             <label className="flex cursor-pointer items-center gap-3 py-2 text-sm">
-              <input type="checkbox" name="attended" value={p.id} defaultChecked={p.attended} className="h-4 w-4 rounded border-slate-300 text-brand-700" />
+              <input type="checkbox" name="attended" value={p.id} defaultChecked={p.attended} className="h-4 w-4 rounded border-slate-300 text-primary" />
               <span className="flex-1">{p.name}</span>
               {p.rsvp ? <span className="text-xs text-slate-400">RSVP: {p.rsvp.replace('_', ' ').toLowerCase()}</span> : null}
             </label>

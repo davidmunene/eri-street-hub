@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { CalendarDays, FileWarning, HeartHandshake, HeartPulse, Pin, Users, Wallet, GraduationCap, ArrowRight } from 'lucide-react';
+import { CalendarDays, CalendarPlus, FileWarning, HeartHandshake, HeartPulse, Megaphone, MessageSquareHeart, Pin, UserPlus, Users, Wallet, GraduationCap, ArrowRight } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/lib/session';
 import { can, visibleAudiences } from '@/lib/permissions';
-import { Badge, Card, EmptyState, StatCard, PageHeader, Avatar } from '@/components/ui';
+import { Badge, Card, EmptyState, StatCard, Avatar, cn } from '@/components/ui';
 import { BarList, MonthlyBars, type MonthPoint } from '@/components/charts';
 import { STAGES, formatDate, formatKES, humanize, parseNairobi, timeAgo, toDateInput } from '@/lib/format';
 
@@ -53,17 +53,39 @@ export default async function DashboardPage() {
     finance = { balance: sum('INCOME') - sum('EXPENSE'), months };
   }
 
+  const quickActions = [
+    ...(canCases ? [{ href: '/beneficiaries/new', label: 'New intake', icon: UserPlus, primary: true }] : []),
+    ...(can(user.role, 'announcements:post') ? [{ href: '/announcements', label: 'Post notice', icon: Megaphone, primary: !canCases }] : []),
+    ...(can(user.role, 'events:manage') ? [{ href: '/events', label: 'Schedule event', icon: CalendarPlus, primary: false }] : []),
+    ...(canFinance ? [{ href: '/finance', label: 'Record payment', icon: Wallet, primary: false }] : []),
+    ...(!canCases ? [{ href: '/events', label: 'Upcoming events', icon: CalendarDays, primary: !can(user.role, 'announcements:post') }, { href: '/suggestions', label: 'Share an idea', icon: MessageSquareHeart, primary: false }] : []),
+  ].filter((a, i, all) => all.findIndex((b) => b.href === a.href) === i).slice(0, 4);
+
   const pct = (n: number) => (beneficiaryCount ? Math.round((n / beneficiaryCount) * 100) : 0);
   const hour = Number(new Intl.DateTimeFormat('en-KE', { hour: 'numeric', hour12: false, timeZone: 'Africa/Nairobi' }).format(now));
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   return (
     <>
-      <PageHeader
-        eyebrow={formatDate(now)}
-        title={`${greeting}, ${user.name.split(' ')[0]}`}
-        description="Here is what is happening across Eri Street Initiative."
-      />
+      <section className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-forest-800 via-forest-900 to-forest-950 px-6 py-7 text-white shadow-sm sm:px-8">
+        <div aria-hidden className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-lime/10" />
+        <div aria-hidden className="absolute -bottom-24 right-32 h-56 w-56 rounded-full bg-[#2e9348]/25" />
+        <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-lime">{formatDate(now)}</p>
+            <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">{greeting}, {user.name.split(' ')[0]}</h1>
+            <p className="mt-1 text-sm text-white/70">Here is what is happening across Eri Street Initiative.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {quickActions.map((a) => (
+              <Link key={a.href} href={a.href} className={cn('inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition',
+                a.primary ? 'bg-lime text-forest-950 hover:bg-lime-hover' : 'bg-white/10 text-white ring-1 ring-inset ring-white/15 hover:bg-white/15')}>
+                <a.icon className="h-4 w-4" /> {a.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="People we support" value={beneficiaryCount.toLocaleString()} hint={`${newThisMonth} new intake${newThisMonth === 1 ? '' : 's'} this month`} icon={<HeartHandshake className="h-5 w-5" />} />
@@ -82,7 +104,7 @@ export default async function DashboardPage() {
           <BarList data={STAGES.map((s) => ({ label: s.label, value: byStage.find((b) => b.stage === s.id)?._count ?? 0, hint: s.description }))} />
         </Card>
         <Card title="By site" description="Active people per location">
-          <BarList data={sites.map((s) => ({ label: s.name, value: s._count.beneficiaries }))} color="#2443a6" emptyText="No sites configured yet" />
+          <BarList data={sites.map((s) => ({ label: s.name, value: s._count.beneficiaries }))} emptyText="No sites configured yet" />
         </Card>
       </div>
 

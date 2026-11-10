@@ -31,7 +31,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
         actions={can(user.role, 'events:manage') ? <EventForm sites={sites} /> : null} />
       <div className="mb-4 inline-flex rounded-lg bg-slate-100 p-1 text-sm">
         {[{ k: '', l: 'Upcoming' }, { k: 'past', l: 'Past' }].map((t) => (
-          <Link key={t.k} href={t.k ? `/events?view=${t.k}` : '/events'} className={cn('rounded-md px-3 py-1.5 font-medium', (past ? 'past' : '') === t.k ? 'bg-white shadow-sm' : 'text-slate-600')}>{t.l}</Link>
+          <Link key={t.k} href={t.k ? `/events?view=${t.k}` : '/events'} className={cn('rounded-md px-3 py-1.5 font-medium', (past ? 'past' : '') === t.k ? 'bg-surface shadow-sm' : 'text-slate-600')}>{t.l}</Link>
         ))}
       </div>
       {events.length === 0 ? (
@@ -41,7 +41,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
           {events.map((e) => {
             const mine = e.rsvps[0]?.status;
             return (
-              <Link key={e.id} href={`/events/${e.id}`} className="flex gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-brand-200 hover:shadow">
+              <Link key={e.id} href={`/events/${e.id}`} className="flex gap-4 rounded-xl border border-slate-200 bg-surface p-5 shadow-sm transition hover:border-brand-200 hover:shadow">
                 <div className="flex h-16 w-16 flex-none flex-col items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                   <span className="text-xs font-semibold uppercase">{e.startsAt.toLocaleString('en-KE', { month: 'short', timeZone: 'Africa/Nairobi' })}</span>
                   <span className="text-2xl font-bold leading-none">{e.startsAt.toLocaleString('en-KE', { day: 'numeric', timeZone: 'Africa/Nairobi' })}</span>

@@ -29,7 +29,7 @@ export default async function TasksPage({ searchParams }: { searchParams: Promis
       <PageHeader title="Tasks" description="Who is doing what. Drag cards between columns, or use the menu on each card." />
       <div className="mb-2 inline-flex rounded-lg bg-slate-100 p-1 text-sm">
         {[['all', 'All tasks'], ['mine', 'Assigned to me'], ['unassigned', 'Unassigned']].map(([k, l]) => (
-          <Link key={k} href={k === 'all' ? '/tasks' : `/tasks?filter=${k}`} className={cn('rounded-md px-3 py-1.5 font-medium', filter === k ? 'bg-white shadow-sm' : 'text-slate-600')}>{l}</Link>
+          <Link key={k} href={k === 'all' ? '/tasks' : `/tasks?filter=${k}`} className={cn('rounded-md px-3 py-1.5 font-medium', filter === k ? 'bg-surface shadow-sm' : 'text-slate-600')}>{l}</Link>
         ))}
       </div>
       <TaskBoard

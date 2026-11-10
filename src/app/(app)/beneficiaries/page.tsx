@@ -43,7 +43,7 @@ export default async function BeneficiariesPage({ searchParams }: { searchParams
           </>
         } />
 
-      <form className="mb-4 grid gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:grid-cols-2 lg:grid-cols-6">
+      <form className="mb-4 grid gap-2 rounded-xl border border-slate-200 bg-surface p-3 shadow-sm sm:grid-cols-2 lg:grid-cols-6">
         <input name="q" defaultValue={f.q} placeholder="Name, alias or case no." aria-label="Search" className={`${inputClass} lg:col-span-2`} />
         <select name="stage" defaultValue={f.stage ?? ''} aria-label="Stage" className={inputClass}><option value="">All stages</option>{STAGES.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}</select>
         <select name="site" defaultValue={f.site ?? ''} aria-label="Site" className={inputClass}><option value="">All sites</option>{sites.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
@@ -60,7 +60,7 @@ export default async function BeneficiariesPage({ searchParams }: { searchParams
         <EmptyState title="No beneficiaries found" description={f.q || f.stage || f.site ? 'Try clearing some filters.' : 'Start by registering someone through the intake form.'} icon={<HeartHandshake className="h-8 w-8" />}
           action={can(user.role, 'beneficiaries:manage') ? <LinkButton href="/beneficiaries/new" variant="success">New intake</LinkButton> : undefined} />
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-surface shadow-sm">
           <Table head={['Person', 'Stage', 'Site', 'Documents', 'Caseworker', 'In programme']}>
             {rows.map((b) => {
               const bc = b.idDocuments.find((d) => d.type === 'BIRTH_CERTIFICATE')?.status;

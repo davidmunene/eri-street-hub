@@ -14,7 +14,7 @@ const FORMATS: Record<Unit, (n: number) => string> = { count: (n) => n.toLocaleS
  * hover / keyboard-focus tooltip. A table view is offered for the multi-series chart.
  */
 
-export function BarList({ data, unit = 'count', color = '#2b52c6', emptyText = 'No data yet' }: {
+export function BarList({ data, unit = 'count', color = 'rgb(var(--chart-1))', emptyText = 'No data yet' }: {
   data: { label: string; value: number; hint?: string }[];
   unit?: Unit;
   color?: string;
@@ -46,8 +46,8 @@ export function BarList({ data, unit = 'count', color = '#2b52c6', emptyText = '
 export type MonthPoint = { month: string; income: number; expense: number };
 
 const SERIES = [
-  { key: 'income' as const, label: 'Income', color: '#2b52c6' },
-  { key: 'expense' as const, label: 'Expenses', color: '#4bab3c' },
+  { key: 'income' as const, label: 'Income', color: 'rgb(var(--chart-1))' },
+  { key: 'expense' as const, label: 'Expenses', color: 'rgb(var(--chart-2))' },
 ];
 
 export function MonthlyBars({ data, unit = 'kes' }: { data: MonthPoint[]; unit?: Unit }) {
@@ -111,7 +111,7 @@ export function MonthlyBars({ data, unit = 'kes' }: { data: MonthPoint[]; unit?:
           </div>
           {active !== null ? (
             <div
-              className="pointer-events-none absolute top-0 z-10 w-44 -translate-x-1/2 rounded-lg border border-slate-200 bg-white p-2.5 text-xs shadow-lg"
+              className="pointer-events-none absolute top-0 z-10 w-44 -translate-x-1/2 rounded-lg border border-slate-200 bg-surface p-2.5 text-xs shadow-lg"
               style={{ left: `${((active + 0.5) / data.length) * 100}%` }}
             >
               <p className="mb-1 font-semibold text-slate-900">{data[active].month}</p>

@@ -57,7 +57,7 @@ export default function TaskBoard({ tasks, members }: { tasks: BoardTask[]; memb
             >
               <h2 className="mb-3 flex items-center gap-2 px-1 text-sm font-semibold text-slate-700">
                 <span className={cn('h-2 w-2 rounded-full', col.dot)} /> {col.label}
-                <span className="ml-auto rounded-full bg-white px-2 text-xs text-slate-500">{items.length}</span>
+                <span className="ml-auto rounded-full bg-surface px-2 text-xs text-slate-500">{items.length}</span>
               </h2>
               <ul className="min-h-[120px] space-y-2">
                 {items.map((t) => {
@@ -67,7 +67,7 @@ export default function TaskBoard({ tasks, members }: { tasks: BoardTask[]; memb
                       key={t.id}
                       draggable
                       onDragStart={(e) => { e.dataTransfer.setData('text/plain', t.id); e.dataTransfer.effectAllowed = 'move'; }}
-                      className="group cursor-grab rounded-lg border border-slate-200 bg-white p-3 shadow-sm active:cursor-grabbing"
+                      className="group cursor-grab rounded-lg border border-slate-200 bg-surface p-3 shadow-sm active:cursor-grabbing"
                     >
                       <div className="flex items-start gap-2">
                         <GripVertical className="mt-0.5 h-4 w-4 flex-none text-slate-300" aria-hidden />
@@ -104,8 +104,8 @@ export default function TaskBoard({ tasks, members }: { tasks: BoardTask[]; memb
       </div>
 
       {editing ? (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/40 p-4 sm:items-center" role="dialog" aria-modal="true">
-          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4 sm:items-center" role="dialog" aria-modal="true">
+          <div className="w-full max-w-lg rounded-2xl bg-surface p-6 shadow-xl">
             <h2 className="mb-4 text-lg font-semibold">{editing === 'new' ? 'New task' : 'Edit task'}</h2>
             <ActionForm action={saveTask} onSuccess={() => setEditing(null)} className="space-y-4">
               {(s) => {

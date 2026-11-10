@@ -8,7 +8,10 @@
   Members, meetings, tasks, documents, money and every beneficiary's journey, all in one place.
 </p>
 
-<p align="center"><img src="docs/dashboard.png" alt="Dashboard" width="860"></p>
+<p align="center">
+  <img src="docs/dashboard.png" alt="Dashboard in light mode" width="49%">
+  <img src="docs/dashboard-dark.png" alt="Dashboard in dark mode" width="49%">
+</p>
 
 ---
 
@@ -37,7 +40,15 @@ The rehabilitation journey: **Helping Hand → Identification → Access & Rehab
 | **Field reports** | Log interventions (food, health, documentation, counselling, referrals…), people reached and follow-ups needed. |
 | **Partners** | Referral directory of hospitals, government offices, rehab centres, schools and NGOs. |
 
-<p align="center"><img src="docs/pipeline.png" alt="Case pipeline" width="860"></p>
+<p align="center"><img src="docs/pipeline.png" alt="Case pipeline (dark mode)" width="72%"> <img src="docs/mobile-dark.png" alt="Mobile view" width="24%"></p>
+
+### 🎨 Look & feel
+- Green brand palette taken from the Eri Street logo, with a deep-forest sidebar and lime accents.
+- **Light and dark mode**: toggle with the sun/moon button (top bar, login page, or *Settings → Appearance*).
+  It follows your device setting until you choose, and remembers your choice.
+- All colours are theme tokens (CSS variables in [`src/app/globals.css`](src/app/globals.css)); chart colours are
+  checked for colour-blind safety and contrast in both themes.
+- Responsive from phones (field use) to wide desktop screens.
 
 ### 🛡️ Built to protect the people it serves
 - **Role-based access, enforced on the server** for every page, action, export and file. Hiding a button is never the only defence.

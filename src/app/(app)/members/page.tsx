@@ -34,14 +34,14 @@ export default async function MembersPage({ searchParams }: { searchParams: Prom
           <option value="">All roles</option>
           {Object.entries(ROLE_LABELS).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
         </select>
-        {admin ? <label className="flex items-center gap-2 text-sm text-slate-600"><input type="checkbox" name="inactive" value="1" defaultChecked={!!inactive} className="rounded border-slate-300" /> Include inactive</label> : null}
-        <button className="rounded-lg bg-white px-4 py-2 text-sm font-medium ring-1 ring-slate-300 hover:bg-slate-50">Filter</button>
+        {admin ? <label className="flex items-center gap-2 text-sm text-slate-600"><input type="checkbox" name="inactive" value="1" defaultChecked={!!inactive} className="rounded border-slate-300 text-primary" /> Include inactive</label> : null}
+        <button className="rounded-lg bg-surface px-4 py-2 text-sm font-medium ring-1 ring-slate-300 hover:bg-slate-50">Filter</button>
       </form>
       {members.length === 0 ? <EmptyState title="No members match" icon={<Users className="h-8 w-8" />} /> : (
         <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {members.map((m) => (
             <li key={m.id}>
-              <Link href={`/members/${m.id}`} className="flex h-full gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-brand-200 hover:shadow">
+              <Link href={`/members/${m.id}`} className="flex h-full gap-4 rounded-xl border border-slate-200 bg-surface p-5 shadow-sm transition hover:border-brand-200 hover:shadow">
                 <Avatar name={m.name} src={m.image} size="lg" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold">{m.name}</p>

@@ -20,7 +20,7 @@ export default function TransactionForm({ members, today }: { members: { id: str
               <div className="grid grid-cols-2 gap-2 rounded-lg bg-slate-100 p-1">
                 {(['INCOME', 'EXPENSE'] as const).map((t) => (
                   <button key={t} type="button" onClick={() => { setType(t); setCategory(TX_CATEGORIES[t][0]); }}
-                    className={cn('rounded-md py-2 text-sm font-semibold', type === t ? (t === 'INCOME' ? 'bg-white text-leaf-700 shadow-sm' : 'bg-white text-rose-700 shadow-sm') : 'text-slate-600')}>
+                    className={cn('rounded-md py-2 text-sm font-semibold', type === t ? (t === 'INCOME' ? 'bg-surface text-leaf-700 shadow-sm' : 'bg-surface text-rose-700 shadow-sm') : 'text-slate-600')}>
                     {t === 'INCOME' ? 'Money in' : 'Money out'}
                   </button>
                 ))}

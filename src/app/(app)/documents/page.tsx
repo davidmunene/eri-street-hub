@@ -32,9 +32,9 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
 
       <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-center">
         <div className="flex flex-wrap gap-1.5">
-          <Link href="/documents" className={cn('rounded-full px-3 py-1 text-sm font-medium', !category ? 'bg-brand-700 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50')}>All</Link>
+          <Link href="/documents" className={cn('rounded-full px-3 py-1 text-sm font-medium', !category ? 'bg-primary text-white' : 'bg-surface text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50')}>All</Link>
           {Object.entries(DOC_CATEGORIES).map(([k, l]) => (
-            <Link key={k} href={`/documents?category=${k}`} className={cn('rounded-full px-3 py-1 text-sm font-medium', category === k ? 'bg-brand-700 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50')}>{l}</Link>
+            <Link key={k} href={`/documents?category=${k}`} className={cn('rounded-full px-3 py-1 text-sm font-medium', category === k ? 'bg-primary text-white' : 'bg-surface text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50')}>{l}</Link>
           ))}
         </div>
         <form className="lg:ml-auto lg:w-64">
@@ -46,7 +46,7 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
       {docs.length === 0 ? (
         <EmptyState title="No documents found" description="Shared files and links will appear here." icon={<FolderOpen className="h-8 w-8" />} />
       ) : (
-        <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200 bg-surface shadow-sm">
           {docs.map((d) => {
             const href = d.fileUrl ?? d.externalUrl ?? '#';
             return (

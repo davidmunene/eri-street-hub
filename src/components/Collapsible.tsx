@@ -15,8 +15,8 @@ export default function Collapsible({ label, title, children }: { label: string;
     );
   }
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/40 p-4 sm:items-center" role="dialog" aria-modal="true" aria-label={title ?? label}>
-      <div className="w-full max-w-2xl rounded-2xl bg-white shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4 sm:items-center" role="dialog" aria-modal="true" aria-label={title ?? label}>
+      <div className="w-full max-w-2xl rounded-2xl bg-surface shadow-xl">
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <h2 className="text-lg font-semibold">{title ?? label}</h2>
           <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100" aria-label="Close"><X className="h-5 w-5" /></button>

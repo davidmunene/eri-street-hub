@@ -50,7 +50,7 @@ export default async function FieldReportsPage({ searchParams }: { searchParams:
       {reports.length === 0 ? <EmptyState title="No field reports yet" icon={<ClipboardList className="h-8 w-8" />} /> : (
         <ul className="space-y-3">
           {reports.map((r) => (
-            <li key={r.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <li key={r.id} className="rounded-xl border border-slate-200 bg-surface p-4 shadow-sm">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge tone="brand">{humanize(r.type)}</Badge>
                 <Badge tone={OUTCOME_TONE[r.outcome]}>{humanize(r.outcome)}</Badge>
